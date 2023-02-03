@@ -1,0 +1,55 @@
+body {
+    display: grid;
+    grid-template-rows: 10% 15% 1fr;
+    font-family: 'Helvetica';
+}
+
+.header {
+    font-size: 4em;
+    font-weight: 500;
+}
+
+.board {
+    display: grid;
+    height: 100fr;
+    grid-template-columns: repeat(8, 60px);
+    grid-template-rows: repeat(8, 60px);
+    margin: auto;
+    border: 3px solid black;
+}
+
+/* .board>div:nth-child(even) {
+    background-color: azure;
+}
+
+.board>div:nth-child(odd) {
+    background-color: darkslategrey;
+} */
+
+.square {
+    position: relative;
+}
+
+.square.even {
+    background-color: darkslategrey;
+}
+
+.square.odd {
+    background-color: azure;
+}
+
+.square>img {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    image-rendering: pixelated;
+    /* place-self: center; */
+}
+
+/* .square {
+    height: 60px;
+    width: 60px;
+} */
