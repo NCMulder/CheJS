@@ -15,10 +15,24 @@
         This can be the controls
         <button onclick="resetBoard()">Reset</button>
         <button onclick="replayGame()">Replay</button>
+        <select id="mode-select" onchange="setMode(this)">
+            <optgroup label="Multiplayer">
+                <option value="local">Local multiplayer</option>
+                <option value="online">Online multiplayer</option>
+            </optgroup>
+            <optgroup label="Bots">
+                <option value="random">Random</option>
+                <option value="alphabetic">Alphabetic</option>
+                <option value="mirror">Mirror</option>
+            </optgroup>
+        </select>
     </div>
     <div class="play">
         And this the main area
         <div class="board">
+        </div>
+        <div class="moves">
+
         </div>
     </div>
 </body>

@@ -7,6 +7,8 @@ let moves = [];
 let canPlay = false;
 let turn = 1;
 
+let mode = "local";
+
 /**
  *  Gets the legal moves of a given board index
  * @param index The index for which to lookup legal moves
@@ -209,6 +211,10 @@ function setupGame() {
     resetBoard();
 }
 
+function setMode(element) {
+    mode = element.value;
+}
+
 function renderGame() {
     clearBoard();
     let legalMoves = getLegalMoves(activePiece);
@@ -223,10 +229,14 @@ function renderGame() {
         $(".board").children().eq(i)
             .append(`<image src="dot.png""/>`)
     );
+    moves.forEach((move, index) =>
+        $(".moves").append(`<div>${move}</div>`)
+    )
 }
 
 function clearBoard() {
     $(".board").children().empty();
+    $(".moves").empty();
 }
 
 function resetBoard() {
@@ -335,6 +345,17 @@ function clickSquare(i) {
         if (getLegalMoves(activePiece).includes(i)) {
             // Move the piece
             movePiece(activePiece, i);
+
+            // Do the bot move
+            if (mode != "online" && mode != "local") {
+                canPlay = false;
+                // Make a bot move
+                setTimeout(() => {
+                    doBotMove();
+                    renderGame();
+                    canPlay = true;
+                }, 1000);
+            }
         } else if (board[i] !== '') {
             activePiece = i;
         } else {
@@ -344,6 +365,44 @@ function clickSquare(i) {
     }
 
     renderGame();
+}
+
+function doBotMove() {
+    switch (mode) {
+        case "local":
+        case "online":
+            console.log("Can't do a bot move for a multiplayer mode!");
+            break;
+        case "random":
+            doRandomMove();
+            break;
+        default:
+            doRandomMove();
+            break;
+    }
+}
+
+function doRandomMove() {
+    let moves = {};
+    for (let i = 0; i < 64; i++) {
+        if (board[i] === "") {
+            continue;
+        }
+        let lm = getLegalMoves(i);
+        if (!lm || lm.length === 0) {
+            continue;
+        }
+        moves[i] = lm;
+    }
+    console.log(moves);
+
+    let start = Object.keys(moves);
+    start = start[Math.floor(Math.random() * start.length)];
+    end = moves[start][Math.floor(Math.random() * moves[start].length)];
+
+    console.log(`Chosen move: ${start} to ${end}`);
+
+    movePiece(start, end);
 }
 
 $(document).ready(function () {
